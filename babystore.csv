@@ -1,0 +1,139 @@
+1,2,3,4,5,6,7,8
+diaper,wet tissuse,lotion,cream,shower
+diaper,lotion,shower
+wet tissue,lotion,cream
+lotion,cream,shower
+toy,clothes,pants
+wet tissue,lotion,cream,shower,diaper
+diaper,lotion,cream,shower,wet tissue,milk powder
+lotion,cream,shower,oil
+cream,shower,diaper,wet tissues,oil
+shower,lotion,oil,cream,shampoo
+lotion,cream,diaper,wet tissue,shower
+shower,lotion,cream,oil,shampoo,powder
+diaper,wet tissue,shower,shampoo,powder
+wet tissue,lotion,powder,clothes
+diaper,lotion,powder,shower,oil,pants
+lotion,powder,shower,shirt
+diaper,wet tissue,lotion,powder,clothes
+wet tissue,diaper,milk powder,toy
+shower,lotion,shampoo,powder,oil
+diaper,lotion,shower,powder,clothes,toy
+milk powder,diaper,toy,clothes
+lotion,shower,diaper,wet tissue,toy,pants
+diaper,shampoo,cream
+milk powder,rice,snack
+rice,snack,water bottle
+milk powder,milk bottle,water bottle
+water bottle,spoon,plate
+rice,snack,spoon,plate,water bottle
+milk powder,milk bottle,toy
+milk bottle,toy,spoon,milk powder
+rice,milk powder,milk bottle,snack,plate
+milk powder,milk bottle,clothes,toy
+rice,snack,water bottle,spoon,plate
+spoon,plate,water bottle,rice
+milk powder,milk bottle,powder
+milk powder,powder,diaper
+milk bottle,milk powder,plate,clothes
+plate,spoon,toy,milk powder,milk bottle,water bottle
+spoon,toy,water bottle,rice
+rice,snack,spoon
+spoon,plate,rice
+plate,spoon,water bottle,rice,diaper
+water bottle,rice,plate,spoon,toy
+milk powder,milk bottle,water bottle,powder,diaper
+water botttle,rice,snack,spoon,plate
+water bottle,mik bottle,hat,toy
+clothes,hat,shoes
+shoes,clothes
+shampoo,oil,clothes
+pants,clothes
+dress,clothes
+cleanser,shampoo,lotion,hat,diaper,pants,bag
+wet tissues,clothes,pants
+pants,clothes,dress
+clothes,pants,shoes,hat
+hat,pants
+shoes,pants,clothes
+bed,pillow
+pillow,blanket
+blanket,mosquito net
+mosquito net,pillow
+pillow,bed,toy
+mosquito net,pillow,bed,blanket
+bed,pillow,clothes
+bed,pillow,blanket,milk powder
+pillow,bed,waterproof bed
+mosquito net,bed,pillow,milk bottle
+mosquito net,bed,pillow,blanket,powder
+bed,pillow,blanket,oil,mosquito net,shower
+pillow,blanket,bed,mosquito net,diaper
+diaper,pillow,blanket,bed,mosquito net,shower,toy
+teaching material,bag
+bag,bookshelf
+bookshelf,bag,clothes
+bag,teaching material,bookshelf,hat
+shoes,bag,teaching material,bookshelf,clothes
+hat,bag,teaching material,bookshelf,toy
+toy,bag,teaching material,bookshelf
+lotion,bag,teaching material,bookshelf
+shower,bag,oil,teaching material,bookshelf
+powder,bag,teaching material,bookshelf
+shoes,shirt
+shirt,clothes
+clothes,pants
+pants,hat,shirt
+shoes,shirt,clothes
+clothes,pants,hat
+hat,pants,clothes,shirt,shoes
+seat,hat,pants,clothes,shirt,shoes
+toy,hat,pants,clothes,shirt,shower,shoes
+shower,hat,pants,clothes,shirt,shoes
+shampoo,hat,pants,clothes,toy,shirt,shoes
+toy,lotion,hat,pants,clothes,shirt,shoes,shower
+powder,hat,pants,clothes,shirt,shoes,diaper
+wet tissue,hat,pants,clothes,toy,shirt,shoes
+oil,hat,pants,clothes,shirt,shoes,diaper
+toy,seat,hat,pants,clothes,shirt,shoes
+socks,hat,pants,clothes,shirt,shoes
+gloves,hat,pants,clothes,shirt,shoes,toy
+socks,hat,pants,clothes,shirt,shoes,diaper
+diaper,hat,pants,clothes,shirt,shoes,powder
+romper,socks,diaper
+socks,gloves,waterproof bed,potty train
+diaper,waterproof bed
+waterproof bed,potty train
+diaper,potty train
+socks,gloves,waterproof bed,potty train,romper
+shower,socks,gloves,waterproof bed,potty train
+diaper,socks,gloves,waterproof bed,potty train,romper
+lotion,socks,gloves,waterproof bed,toy,potty train,romper
+diaper,socks,lotion,gloves,waterproof bed,potty train,romper
+socks,gloves,waterproof bed,potty train,romper,shower
+socks,gloves,waterproof bed,potty train,romper,wet tissue
+bathtub,bathseat
+shower,bathtub
+bathseat,shower
+shampoo,bathtub
+shampoo,bathseat
+lotion,shower,bathtub,bathseat
+shampoo,bathtub,oil,bathseat
+clothes,bathtub,bathseat
+hat,bathtub,bathseat
+shoes,bathtub,bathseat
+pants,bathtub,bathseat,romper
+shower,shampoo,bathtub,bathseat
+lotion,clothes,bathtub,bathseat
+toy,bathtub,bathseat
+seat,bathtub,bathseat
+clothes,hat,walker
+pants,shoes,walker,shoes
+hat,shoes,shirt,walker,pants
+sitting chair,walker,clothes
+clothes,hat,shoes,shirt,pants,sitting chair
+diaper,hat,shoes,sitting chair
+carrier,diaper,lotion,powder
+carrier,diaper,lotion,wet tissue,potty train
+romper,socks,gloves,carrier
+walker,shoes,hat

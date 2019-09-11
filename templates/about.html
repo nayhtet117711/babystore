@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Baby Store-Product</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script>
+        $(() => {
+            $("#searchInputBox").on("input", (e) => {
+                const searchInputBoxValue = $("#searchInputBox").val();
+                // console.log(searchInputBoxValue)
+            })
+        })
+    </script>
+
+</head>
+
+<body class="">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-0">
+
+                <div class="rounded">
+                    <div class="">
+                        <img src="{{ url_for('static', filename='img/cover.jpg') }}" alt="cover-img" class="w-100">
+                    </div>
+                    <div class="py-3 px-2 bg-light d-flex flex-row justify-content-between border ">
+                        <div class="d-flex flex-row">
+                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/about">About</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="py-5 border border-left-0 border-right-0 border-top-0 mb-5">
+                    <div class="py-4 d-flex justify-content-center">
+                        <img src="{{ url_for('static', filename='utycc.jpeg') }}" alt="ycc logo" width="140" height="140">
+                    </div>
+                    <div>
+                        <div class="h3 py-4 d-flex justify-content-center font-weight-bold">University of Technology (Yatanarpon Cyber City)</div>
+                        <div class="h4 py-3 d-flex justify-content-center font-weight-bold">Department of Information and Communication Technology</div>
+                        <div class="h5 py-2 pt-4 d-flex justify-content-center">Ma Kyi Myat Noe Soe</div> 
+                        <div class="h5 py-2 d-flex justify-content-center">5IST-</div> 
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

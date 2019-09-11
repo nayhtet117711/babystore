@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Baby Store-Product</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <script>
+        $(() => {
+            $("#searchInputBox").on("input", (e) => {
+                const searchInputBoxValue = $("#searchInputBox").val();
+                // console.log(searchInputBoxValue)
+            })
+        })
+    </script>
+    <style>
+        .mItem {
+            cursor: pointer;
+        }
+        .mItem:hover {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-0">
+
+                <div class="rounded">
+                    <div class="">
+                        <img src="{{ url_for('static', filename='img/cover.jpg') }}" alt="cover-img" class="w-100">
+                    </div>
+                    <div class="py-3 px-2 bg-light d-flex flex-row justify-content-between border ">
+                        <div class="d-flex flex-row">
+                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/about">About</a>
+                        </div>
+                    </div>
+                </div>
+
+                {% if item.fname|length > 0 %}
+                <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-center">
+                    <div class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between w-25">
+                        <div class="p-1">
+                            <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.fname) }}" alt="{{ item.fname }}" class="w-100">
+                        </div>
+                        <div class="p-2 text-center">
+                            <div class="h5 text-seconary text-center">{{ item.type }}</div>
+                            <div class="text-seconary text-center text-secondary w-100" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">{{ item.fname }}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-center my-2">
+                    <div class="mItem p-2 border m-1 d-flex flex-column rounded justify-content-between w-100 bg-primary text-white">
+                        <div class="">Recommendations for {{item.type}}</div>
+                    </div>
+                    <div class="p-2 text-muted">Recommended {{ itemList|length }}-items</div>
+                    <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-center">
+                        {% for item in itemList %}
+                        <a class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between" href="/product/{{item.type}}/{{item.fname}}">
+                            <div class="p-1">
+                                <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.fname) }}" alt="{{ item.fname }}" class="" width="230">
+                            </div>
+                            <div class="p-2">
+                                <div class="h5 text-seconary text-center">{{ item.type }}</div>
+                                <!-- <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis">{{ item.fname }}</div> -->
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

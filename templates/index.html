@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Baby Store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
+    <script>
+        $(() => {
+            $("#searchInputBox").on("input", () => {
+                const searchInputBoxValue = $("#searchInputBox").val();
+                const typeList = $("#searchContainer").attr("typeList").replace("[", "").replace("]", "").split(",").map(v => v.trim().split("'")[1])
+                
+                $("#searchContainer").empty()
+                if(searchInputBoxValue.length>0) {
+                    const list = typeList.filter(v=>v.toLocaleLowerCase().includes(searchInputBoxValue.toLocaleLowerCase()))
+                    list.forEach((it, i) => {
+                        if(i<12)
+                            $("#searchContainer").append(`<a href="/product/`+it+`" class="p-2 d-block text-secondary bg-light border" style="border-radius: 2px; margin-top: 1px;">`+it+`</a>`) 
+                    });
+                }
+            })
+        })
+    </script>
+    <style>
+        .mItem {
+            cursor: pointer;
+        }
+        .mItem:hover {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-0">
+
+                <div class="rounded">
+                    <div class="">
+                        <img src="{{ url_for('static', filename='img/cover.jpg') }}" alt="cover-img" class="w-100">
+                    </div>
+                    <div class="py-3 px-2 bg-light d-flex flex-row justify-content-between border ">
+                        <div class="d-flex flex-row">
+                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/about">About</a>
+                        </div>
+                        <div class="input-group col-lg-4 col-md-6 ">
+                            <div class="form-control p-0">
+                                <input type="text" class="form-control border-0" placeholder="Search" id="searchInputBox">
+                                <div id="searchContainer" style="position: absolute; left:0px; right: 0px; margin-top: 4px;" class="" typeList="{{type_list}}"></div>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text" id="basic-addon2" style="cursor: default"><i class="fa fa-search"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-between">
+                    {% for item in itemList %}
+                        <a class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between" href="/product/{{item.type}}/{{item.fname}}">
+                            <div class="p-1">
+                                <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.fname) }}" alt="{{ item.fname }}" class="" width="230">
+                            </div>
+                            <div class="p-2">
+                                <div class="h5 text-seconary text-center">{{ item.type }}</div>
+                                <!-- <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis">{{ item.fname }}</div> -->
+                            </div>
+                        </a>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
