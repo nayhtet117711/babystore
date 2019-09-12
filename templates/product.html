@@ -54,18 +54,38 @@
                         </div>
                     </div>
                 </div>
+
+                {% elif searchProducts|length > 0 %}
+                <div class="mItem mt-4 mb-3 p-2 border m-1 d-flex flex-column rounded justify-content-between bg-primary text-white">
+                    <div class="">Results for {{ item.type }}</div>
+                </div>
+                <div class="border mx-2" style="overflow-x: auto">
+                    <div class="rounded bg-white d-flex flex-row justify-content-start">
+                        {% for p in searchProducts %}
+                        <div class="p-1 border m-1 d-flex flex-column rounded justify-content-between" style="min-width: 150px;">
+                            <div class="p-1">
+                                <img src="{{ url_for('static', filename='photos/'+p.type+'/'+p.fname) }}" alt="{{ p.fname }}" class="" style="width: 140px;">
+                            </div>
+                            <div class="p-2 text-center">
+                                <div class="h6 text-seconary text-center">{{ p.type }}</div>
+                                <!-- <div class="text-seconary text-center text-secondary w-100" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">{{ p.fname }}</div> -->
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% endif %}
 
                 <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-center my-2">
                     <div class="mItem p-2 border m-1 d-flex flex-column rounded justify-content-between w-100 bg-primary text-white">
-                        <div class="">Recommendations for {{item.type}}</div>
+                        <div class="">Suggestions for {{item.type}}</div>
                     </div>
-                    <div class="p-2 text-muted">Recommended {{ itemList|length }}-items</div>
+                    <div class="text-muted px-2 w-100">Recommended {{ itemList|length }}-items</div>
                     <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-center">
                         {% for item in itemList %}
-                        <a class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between" href="/product/{{item.type}}/{{item.fname}}">
-                            <div class="p-1">
-                                <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.fname) }}" alt="{{ item.fname }}" class="" width="230">
+                        <a class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between" href="/product/{{item.type}}/{{item.fname}}" style="width: 250px;">
+                            <div class="p-1 text-center">
+                                <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.fname) }}" alt="{{ item.fname }}" class="" width="200" style="width: 200px;">
                             </div>
                             <div class="p-2">
                                 <div class="h5 text-seconary text-center">{{ item.type }}</div>

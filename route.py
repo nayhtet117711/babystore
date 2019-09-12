@@ -54,10 +54,16 @@ def product(ftype, fname) :
         for product in product_list:
             if item_type.lower()==product.type.lower() :
                 recommendatedProducts.append(product)
+    
+    searchProducts = []
+    for product in product_list:
+        if (ftype.lower()==product.type.lower()) & (len(searchProducts)<15) :
+            searchProducts.append(product)
 
     return render_template(
         'product.html',
         item = item,
+        searchProducts = searchProducts,
         itemList = recommendatedProducts
     )
 
