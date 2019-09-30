@@ -5,6 +5,7 @@ from apyori import apriori
 
 def doTheory():
     store_data = pd.read_csv('babystore.csv')
+
     # print(store_data.tail())
     # print(store_data.shape)
 

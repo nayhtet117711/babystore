@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Baby Store-Product</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+    <link href="{{url_for('static',filename='fontawesome/css/all.css')}}" rel="stylesheet">
+    <script>
+        $(() => {
+            $("#searchInputBox").on("input", (e) => {
+                const searchInputBoxValue = $("#searchInputBox").val();
+                // console.log(searchInputBoxValue)
+            })
+        })
+    </script>
+
+</head>
+
+<body class="">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-0" align="right">
+
+                    <div class="rounded">
+                        <div class="">
+                            <img src="{{ url_for('static', filename='img/cover.jpg') }}" alt="cover-img" class="w-100">
+                        </div>
+                        <div class="py-3 px-2 bg-light d-flex flex-row justify-content-end border ">
+                            <div class="d-flex flex-row px-2">
+                                <a class="nav-link" href="/">Home</a>
+                                <a class="nav-link" href="/about">About</a>
+                                <a class="nav-link" href="/logout">Logout</a>
+                                {% if request.cookies.get("cartCount")|length > 0 %}
+                                <a href="/cart" class="text-primary font-weight-bold d-flex align-items-center px-2" style="cursor: pointer;">
+                                    <span class="px-1" style="font-size: 20px;"> <i class="fa fa-shopping-cart"></i></span>
+                                    {{ request.cookies.get("cartCount") }}
+                                </a>
+                                {% endif %}
+                                <div class="text-success font-weight-bold d-flex align-items-center" style="cursor: default">
+                                    <span class="px-1" style="font-size: 24px;"> <i class="fa fa-user-circle"></i></span>
+                                    {{ request.cookies.get("loggedName") }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                <div class="py-5 border border-left-0 border-right-0 border-top-0 mb-5 w-75">
+                    <div class="d-flex flex-row justify-content-between my-1 p-2 rounded bg-primary text-light" style="">
+                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom">No</div>
+                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom">Name</div>
+                        <div class="pr-5 h6 font-weight-bold" style="vertical-align: text-bottom">Category</div>
+                        <div class="pr-2 h6 font-weight-bold" style="vertical-align: text-bottom">Price</div>
+                    </div>
+                    {% for item in cartItemList %}
+                        <div class="d-flex flex-row justify-content-between my-1 p-2 rounded text-dark" style="background-color: #f0f0f9">
+                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.no}}</div>
+                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.fname}}</div>
+                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.type}}</div>
+                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.price}} KS</div>
+                        </div>
+                    {% endfor %}
+                    <div class="d-flex flex-row justify-content-end my-1 " style="">
+                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
+                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
+                        <div class="pr-4 h6 py-2 font-weight-bold text-dark w-50" align="right" style="vertical-align: text-bottom">Total: </div>
+                        <div class="pl-5 pr-2 py-2 rounded h6 font-weight-bold bg-primary text-white" style="vertical-align: text-bottom">{{ totalAmount }} KS</div>
+                    </div>
+                    <div class="d-flex flex-row justify-content-end my-1 " style="">
+                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
+                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
+                        <div class="pr-4 h6 py-2 font-weight-bold text-dark w-50" align="right" style="vertical-align: text-bottom"></div>
+                        <a href ="/cart-checkout" class="text-center px-4 w-25 py-2 rounded h6 font-weight-bold bg-primary text-white" style="vertical-align: text-bottom">
+                            <i class="fa fa-usd" style="font-size: 18px"></i>
+                            <span>Checkout</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

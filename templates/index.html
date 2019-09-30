@@ -45,10 +45,6 @@
                         <img src="{{ url_for('static', filename='img/cover.jpg') }}" alt="cover-img" class="w-100">
                     </div>
                     <div class="py-3 px-2 bg-light d-flex flex-row justify-content-between border ">
-                        <div class="d-flex flex-row">
-                            <a class="nav-link" href="/">Home</a>
-                            <a class="nav-link" href="/about">About</a>
-                        </div>
                         <div class="input-group col-lg-4 col-md-6 ">
                             <div class="form-control p-0">
                                 <input type="text" class="form-control border-0" placeholder="Search" id="searchInputBox">
@@ -58,20 +54,43 @@
                                 <span class="input-group-text" id="basic-addon2" style="cursor: default"><i class="fa fa-search"></i></span>
                             </div>
                         </div>
+                        <div class="d-flex flex-row px-2">
+                            <a class="nav-link" href="/">Home</a>
+                            <a class="nav-link" href="/about">About</a>
+                            <a class="nav-link" href="/logout">Logout</a>
+                            {% if request.cookies.get("cartCount")|length > 0 %}
+                            <a href="/cart" class="text-primary font-weight-bold d-flex align-items-center px-2" style="cursor: pointer;">
+                                <span class="px-1" style="font-size: 20px;"> <i class="fa fa-shopping-cart"></i></span>
+                                {{ request.cookies.get("cartCount") }}
+                            </a>
+                            {% endif %}
+                            <div class="text-success font-weight-bold d-flex align-items-center" style="cursor: default">
+                                <span class="px-1" style="font-size: 24px;"> <i class="fa fa-user-circle"></i></span>
+                                {{ request.cookies.get("loggedName") }}
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-between">
                     {% for item in itemList %}
-                        <a class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between" href="/product/{{item.type}}/{{item.fname}}">
-                            <div class="p-1">
-                                <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.fname) }}" alt="{{ item.fname }}" class="" width="230">
-                            </div>
-                            <div class="p-2">
-                                <div class="h5 text-seconary text-center">{{ item.type }}</div>
-                                <!-- <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis">{{ item.fname }}</div> -->
-                            </div>
-                        </a>
+                        <div class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between">
+                            <a class="" href="/product/{{item.type}}/{{item.fname}}">
+                                <div class="p-1">
+                                    <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.img) }}" alt="{{ item.img }}" class="" width="230">
+                                </div>
+                                <div class="p-2">
+                                    <div class="h6 text-seconary text-center" style="width: 220px">{{ item.fname.replace("_", " ").replace("-", " ") }}</div>
+                                    <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;">{{ item.type }}</div>
+                                </div>
+                            </a>
+                            <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}">
+                                <div class="text-seconary text-center text-white" style="font-size: 14px;">{{ item.price }} KS</div>
+                                <div>
+                                    <i class="fa fa-cart-plus text-light" style="font-size: 18px;"></i>
+                                </div>
+                            </a>
+                        </div>
                     {% endfor %}
                 </div>
 

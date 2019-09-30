@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Baby Store-Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static',filename='bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static', filename='jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+
+</head>
+
+<body class="">
+    <div class="container-fluid">
+        <div class="row justify-content-center p-0">
+            <div class="col-md-9 col-sm-12 p-0">
+
+                <div class="rounded">
+                    <div class="">
+                        <img src="{{ url_for('static', filename='img/cover.jpg') }}" alt="cover-img" class="w-100"
+                            style="opacity: 0.2">
+                    </div>
+                </div>
+
+                <div class="py-5 mb-5 col-5" style="position: absolute; top: 20%; left:30%">
+                    <div class="h3 justify-content-center py-3 font-weight-bold text-primary" align="center">Login to Baby Store</div>
+                    <form action="/login" method="POST">
+                        <div class="form-text text-danger py-2">{{ errorText }}</div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Password</label>
+                            <input type="password" name="password" class="form-control" placeholder="Password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary form-control">Login</button>
+                    </form>
+                    <div class="py-3" align="center">
+                        <a href="/signup">Don't have an account, create a new account.</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
