@@ -47,33 +47,37 @@
                         </div>
                     </div>
                 
-                <div class="py-5 border border-left-0 border-right-0 border-top-0 mb-5 w-75">
-                    <div class="d-flex flex-row justify-content-between my-1 p-2 rounded bg-primary text-light" style="">
-                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom">No</div>
-                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom">Name</div>
-                        <div class="pr-5 h6 font-weight-bold" style="vertical-align: text-bottom">Category</div>
-                        <div class="pr-2 h6 font-weight-bold" style="vertical-align: text-bottom">Price</div>
+                <div class="py-5 border border-left-0 border-right-0 border-top-0 mb-5 w-100">
+                    <div class="d-flex flex-row align-items-center justify-content-between my-1 py-2 rounded text-light border border-muted" style="background-color: #a0a5c9">
+                        <div class="pr-3 py-1 h6 font-weight-bold w-50 mx-1 my-0 text-left pl-3">No</div>
+                        <div class="pr-3 py-1 h6 font-weight-bold w-100 mx-1 my-0 text-left">NAME</div>
+                        <div class="pr-3 py-1 h6 font-weight-bold w-100 mx-1 my-0 text-left">CATEGORY</div>
+                        <div class="pr-3 py-1 h6 font-weight-bold w-100 mx-1 my-0">ORIGINAL PRICE</div>
+                        <div class="pr-3 py-1 h6 font-weight-bold w-100 mx-1 my-0 text-center">PROMOTION</div>
+                        <div class="pr-3 py-1 h6 font-weight-bold w-100 mx-1 my-0">PRICE</div>
                     </div>
                     {% for item in cartItemList %}
-                        <div class="d-flex flex-row justify-content-between my-1 p-2 rounded text-dark" style="background-color: #f0f0f9">
-                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.no}}</div>
-                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.fname}}</div>
-                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.type}}</div>
-                            <div class="px-2 h6 " style="vertical-align: text-bottom">{{item.price}} KS</div>
+                        <div class="d-flex flex-row justify-content-between my-1 p-2 rounded text-dark border border-muted" style="background-color: #f0f0f9">
+                            <div class="pr-3 py-1 h6 w-50 mx-1 my-0 text-left pl-3">{{item.no}}</div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-left">{{item.fname.capitalize()}}</div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-left">{{item.type.capitalize()}}</div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0">{{item.price}} <span style="color: #9595a5; font-weight: 100; padding-left: 4px;">MMK</span></div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-center">{{ "10%" if item.promotion else ""}}</div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0">{{item.aprice}} <span style="color: #9595a5; font-weight: 100; padding-left: 4px;">MMK</span></div>
                         </div>
                     {% endfor %}
                     <div class="d-flex flex-row justify-content-end my-1 " style="">
-                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
-                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
-                        <div class="pr-4 h6 py-2 font-weight-bold text-dark w-50" align="right" style="vertical-align: text-bottom">Total: </div>
-                        <div class="pl-5 pr-2 py-2 rounded h6 font-weight-bold bg-primary text-white" style="vertical-align: text-bottom">{{ totalAmount }} KS</div>
+                        <div class="pr-2 h6 py-2 text-secondary w-50 text-right">Total: </div>
+                        <div class="pr-4 py-2 rounded h6 font-weight-bold text-dark border border-muted" style="width: 200px; vertical-align: text-bottom; background-color: #f0f0f9">{{ totalAmount }} <span style="color: #9595a5; font-weight: 100; padding-left: 4px;">MMK</span>&nbsp;</div>
                     </div>
                     <div class="d-flex flex-row justify-content-end my-1 " style="">
-                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
-                        <div class="pr-3 h6 font-weight-bold" style="vertical-align: text-bottom"></div>
-                        <div class="pr-4 h6 py-2 font-weight-bold text-dark w-50" align="right" style="vertical-align: text-bottom"></div>
-                        <a href ="/cart-checkout" class="text-center px-4 w-25 py-2 rounded h6 font-weight-bold bg-primary text-white" style="vertical-align: text-bottom">
-                            <i class="fa fa-usd" style="font-size: 18px"></i>
+                        
+                        <a href ="/clearCart" class="text-center py-2 rounded h6 mr-2 font-weight-bold bg-warning text-white" style="width: 200px; vertical-align: text-bottom">
+                            <i class="fa fa-credit-card px-2 text-danger" style="font-size: 16px;"></i>
+                            <span>Cancel</span>
+                        </a>
+                        <a href ="/cart-checkout" class="text-center py-2 rounded h6 font-weight-bold bg-success text-white" style="width: 200px; vertical-align: text-bottom">
+                            <i class="fa fa-credit-card px-2" style="font-size: 16px; color: #ffc000"></i>
                             <span>Checkout</span>
                         </a>
                     </div>

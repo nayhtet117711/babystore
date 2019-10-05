@@ -1,9 +1,11 @@
 from flask import Flask, render_template, request, make_response, send_from_directory, escape, redirect, url_for
 import os
+from os.path import splitext
 import random
 import datetime
 from flask_mysqldb import MySQL
 from baby_store1 import doTheory
+from werkzeug import secure_filename
 
 app = Flask(__name__)
 
@@ -15,7 +17,9 @@ class Item :
     fname = ""
     img = ""
     price = 0.0
+    aprice = 0.0
     id = 0,
+    promotion = False
 
 # photoDirlist = os.listdir("static/photos")
 # product_list = []
@@ -61,9 +65,15 @@ def index() :
     if not loggedName:
         return redirect("/login")
     else :
+        cursor = mysql.connection.cursor()
+        cursor.execute("select distinct category from product")
+        categoryList = [ c[0] for c in cursor.fetchall()]
+        mysql.connection.commit()
+        cursor.close()
         return render_template(
             'index.html',
             itemList = itemList,
+            categoryList=categoryList,
             type_list = list(dict.fromkeys(fileTypeList))
         )
 
@@ -119,6 +129,22 @@ def product(ftype, fname) :
         itemList = recommendatedProducts
     )
 
+def saveProduct() :
+    name = request.form['name']
+    price = request.form['price']
+    category = request.form['category']
+    img = request.files['img']
+    
+    imgFileName = secure_filename(img.filename)
+    img.save(os.path.join(app.root_path, 'static', "photos", category, imgFileName))
+
+    cursor = mysql.connection.cursor()
+    cursor.execute("insert into product(name, category, price, img) values(%s, %s, %s, %s)", (name, category, price, img.filename))
+    mysql.connection.commit()
+    cursor.close()
+
+    return redirect("/?newProduct=1")
+
 def addToCart(itemId) : 
     loggedName = request.cookies.get("loggedName")
     if not loggedName:
@@ -127,7 +153,7 @@ def addToCart(itemId) :
     itemList, fileTypeList = readProducts(mysql)
     item = Item()
     for item1 in itemList:
-        if str(item1.id)==str(itemId):
+        if int(item1.id)==int(itemId):
             item.id = item1.id
             item.price = item1.price
             item.fname = item1.fname
@@ -135,13 +161,13 @@ def addToCart(itemId) :
             item.img = item1.img
             break
     itemString = str(item.id)+","+str(item.fname)+","+str(item.type)+","+str(item.price)
-    cart = request.cookies.get("cart")
+    cart = str(request.cookies.get("cart"))
     if cart=="":
         cart = itemString
     else :
-        cart = cart + " " + itemString
+        cart = cart + "_-_" + itemString
 
-    cartCount = len(cart.split(" "))
+    cartCount = len(cart.split("_-_"))
     # for c in cart.split(" "):
     #     pitem = c.split(",")
     #     print(pitem)
@@ -161,7 +187,8 @@ def cart() :
     itemList = []
     totalAmount = 0
     cart = request.cookies.get("cart")    
-    for c in cart.split(" "):
+    print("cc::", cart)
+    for c in cart.split("_-_"):
         pitem = c.split(",")
         itemCount += 1
         it = Item()
@@ -170,9 +197,46 @@ def cart() :
         it.type = pitem[2]
         it.price = pitem[3]
         it.no = itemCount
-        totalAmount += int(it.price)
         itemList.append(it)
 
+    cursor = mysql.connection.cursor()
+    cursor.execute("select items from bill")
+    fetchedData = cursor.fetchall()
+
+    for i in range(0, len(itemList)):
+        for k in range(0, len(itemList)):
+            # itemList[i] = itemList[i]
+            # itemList[k] = itemList[k]
+            # print(len(itemList),i, k)
+            if itemList[i].id!=itemList[k].id:
+                for bl in fetchedData:
+                    count1 = 0
+                    count2 = 0
+                    # print(" ||======================")
+                    for c in bl[0].split("_-_") :                        
+                        pitem = c.split(",")
+                        idd = pitem[0]
+                        
+                        if itemList[i].id==idd:
+                            count1 += 1
+                        if itemList[k].id==idd:
+                            count2 += 1
+
+                        # print( itemList[i].id, itemList[i].fname, itemList[k].id, itemList[k].fname, idd, pitem[1])
+                    if (count1>0) & (count2>0):
+                        itemList[i].promotion = True
+                        itemList[k].promotion = True
+
+    for it in itemList:
+        # print(it.fname, it.promotion)
+        if it.promotion:
+            it.aprice = float(it.price) * 0.9
+        else :
+            it.aprice = float(it.price)
+        totalAmount += float(it.aprice)   
+
+    mysql.connection.commit()
+    cursor.close()
 
     return render_template(
         'cart.html',
@@ -190,7 +254,7 @@ def checkOutCart() :
     itemList = []
     totalAmount = 0
     cart = request.cookies.get("cart")    
-    for c in cart.split(" "):
+    for c in cart.split("_-_"):
         pitem = c.split(",")
         itemCount += 1
         it = Item()
@@ -199,7 +263,7 @@ def checkOutCart() :
         it.type = pitem[2]
         it.price = pitem[3]
         it.no = itemCount
-        totalAmount += int(it.price)
+        totalAmount += float(it.price)
         itemList.append(it)
     
     cursor = mysql.connection.cursor()
@@ -212,6 +276,19 @@ def checkOutCart() :
     response.set_cookie("cartCount", "")
 
     return response
+
+def clearCart() :
+    loggedName = request.cookies.get("loggedName")
+    loggedEmail = request.cookies.get("loggedEmail")
+    if not loggedName:
+        return redirect("/login")
+    
+    response = make_response(redirect("/"))
+    response.set_cookie("cart", "")
+    response.set_cookie("cartCount", "")
+
+    return response
+
 
 def about() :
     return render_template(

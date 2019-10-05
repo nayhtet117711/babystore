@@ -72,7 +72,57 @@
                     </div>
                 </div>
 
-                <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-between">
+                {% if request.cookies.get("loggedEmail") == 'admin@gmail.com' %}
+                    <div class="rounded border border-primary mt-3">
+                        <div class="d-flex flex-row p-2 justify-content-between bg-primary rounded-top {{ '' if request.args.get('newProduct') else 'rounded-bottom' }}" style="">
+                            <div class="text-success w-75 font-weight-bold align-items-center" style="cursor: pointer;">
+                                <a href="?newProduct=1" class="px-3" style="text-decoration: none">
+                                    <span class="px-1 text-light" style="font-size: 20px;"> <i class="fa fa-plus-circle"></i></span>
+                                    <span class="text-light">Add New Product</span>
+                                </a>
+                            </div>   
+                            {% if request.args.get('newProduct') %}
+                            <a class="" href="/" >
+                                <span class="px-1 text-warning" style="font-size: 20px;"> <i class="fa fa-times-circle"></i></span>
+                            </a>
+                            {% endif%}
+                        </div>   
+                        {% if request.args.get('newProduct') %}
+                        <div class="p-3">
+                            <form action="/saveProduct" method="POST" class="w-50" enctype="multipart/form-data">
+                                <div class="form-text text-danger py-2">{{ errorText }}</div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Product Name</label>
+                                    <input type="text" name="name" class="form-control" placeholder="Enter product name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Price</label>
+                                    <input type="number" name="price" class="form-control" placeholder="Enter price of product" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Select Catetory</label>
+                                    <select class="form-control" name="category" required>
+                                        {% for c in categoryList %}
+                                        <option value="{{c}}">{{c.capitalize()}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Image of product</label>
+                                    <input type="file" accept="image/*" name="img" class="form-control" placeholder="Choose image of product" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary form-control">
+                                    Save this Product
+                                    <span class="px-1 text-light" style="font-size: 20px;"> <i class="fa fa-check-circle"></i></span>
+                                </button>
+                            </form>
+                        </div>    
+                        {% endif %}                     
+                    </div>
+                {% endif %}
+
+                <div class="rounded bg-light py-4 d-flex flex-row flex-wrap justify-content-start">
                     {% for item in itemList %}
                         <div class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between">
                             <a class="" href="/product/{{item.type}}/{{item.fname}}">

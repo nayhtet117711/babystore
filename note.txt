@@ -1,0 +1,2 @@
+use babystoredb;
+insert into user(email, name, password) values('admin@gmail.com', 'Admin', '123456');
