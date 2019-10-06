@@ -74,13 +74,19 @@
                 <div class="border mx-2" style="overflow-x: auto">
                     <div class="rounded bg-white d-flex flex-row justify-content-start">
                         {% for p in searchProducts %}
-                        <div class="p-1 border m-1 d-flex flex-column rounded justify-content-between" style="min-width: 150px;">
+                        <div class="p-1 border m-1 d-flex flex-column rounded justify-content-between" style="min-width: 220px;">
                             <div class="p-1">
                                 <img src="{{ url_for('static', filename='photos/'+p.type+'/'+p.img) }}" alt="{{ p.img }}" class="" style="width: 140px;">
                             </div>
                             <div class="p-2 text-center">
-                                    <div class="h6 text-seconary text-center" style="width: 220px">{{ p.fname.replace("_", " ").replace("-", " ") }}</div>
-                                    <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;">{{ p.type }}</div>
+                                <div class="h6 text-seconary text-center" style="width: 220px">{{ p.fname.replace("_", " ").replace("-", " ") }}</div>
+                                <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;">{{ p.type }}</div>
+                                <a class="p-2 mt-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{p.id}}">
+                                    <div class="text-seconary text-center text-white" style="font-size: 14px;">{{ p.price }} KS</div>
+                                    <div>
+                                        <i class="fa fa-cart-plus text-light" style="font-size: 18px;"></i>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                         {% endfor %}
