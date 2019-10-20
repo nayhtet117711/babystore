@@ -33,7 +33,7 @@ app.add_url_rule("/login", "login", login   , methods=["GET", "POST"])
 
 app.add_url_rule("/logout", "logout", logout   , methods=["GET", "POST"])
 
-app.add_url_rule("/add-to-cart/<itemId>", "add-to-cart", addToCart   , methods=["GET", "POST"])
+app.add_url_rule("/add-to-cart/<itemId>/<prevUrl>", "add-to-cart", addToCart   , methods=["GET", "POST"])
 
 app.add_url_rule("/cart", "cart", cart   , methods=["GET", "POST"])
 

@@ -20,6 +20,7 @@ class Item :
     aprice = 0.0
     id = 0,
     promotion = False
+    promoPercent=10 
 
 # photoDirlist = os.listdir("static/photos")
 # product_list = []
@@ -122,11 +123,48 @@ def product(ftype, fname) :
         if (ftype.lower()==product.type.lower()) & (len(searchProducts)<15) :
             searchProducts.append(product)
 
+    cursor = mysql.connection.cursor()
+    cursor.execute("select items from bill")
+    fetchedBillData = cursor.fetchall()
+
+    recomProduct2 = []
+    for it1 in searchProducts:
+        recomProduct2.append(it1)
+        doit = False
+        for it2 in recommendatedProducts:
+            for bl in fetchedBillData:
+                count1 = 0
+                count2 = 0
+                # print(" ||======================")
+                for c in bl[0].split("_-_") :                        
+                    pitem = c.split(",")
+                    idd = int(pitem[0])
+                    # if (idd==str(1)) | (idd==str(373)) :
+                    #     print("idd: ", idd, "  <> item1: ", it1.id, " <> item2: ", it2.id)
+                    
+                    if it1.id==idd:
+                        count1 += 1
+                    if it2.id==idd:
+                        count2 += 1
+
+                if (count1>0) & (count2>0):
+                    it2.promotion = True
+                    recomProduct2.append(it2)
+                    doit = True
+                    break
+                    # print( "item1: ", it1.id, it1.promotion, " <<>> item2: ", it2.id, it2.promotion)            
+        if not doit :
+            recomProduct2.append(None)
+        
+    # print("recomProduct2: ", recomProduct2)
+
+
     return render_template(
         'product.html',
         item = item,
         searchProducts = searchProducts,
-        itemList = recommendatedProducts
+        # itemList = recommendatedProducts,
+        itemList = recomProduct2
     )
 
 def saveProduct() :
@@ -145,7 +183,7 @@ def saveProduct() :
 
     return redirect("/?newProduct=1")
 
-def addToCart(itemId) : 
+def addToCart(itemId, prevUrl) : 
     loggedName = request.cookies.get("loggedName")
     if not loggedName:
         return redirect("/login")
@@ -172,7 +210,7 @@ def addToCart(itemId) :
     #     pitem = c.split(",")
     #     print(pitem)
 
-    response = make_response(redirect("/"))
+    response = make_response(redirect(prevUrl.replace("$", "/")))
     response.set_cookie("cart", cart)
     response.set_cookie("cartCount", str(cartCount))
     
@@ -187,7 +225,7 @@ def cart() :
     itemList = []
     totalAmount = 0
     cart = request.cookies.get("cart")    
-    print("cc::", cart)
+    # print("cc::", cart)
     for c in cart.split("_-_"):
         pitem = c.split(",")
         itemCount += 1

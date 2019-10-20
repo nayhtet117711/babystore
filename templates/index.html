@@ -134,7 +134,7 @@
                                     <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;">{{ item.type }}</div>
                                 </div>
                             </a>
-                            <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}">
+                            <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}/{{request.path.replace('/', '$')}}">
                                 <div class="text-seconary text-center text-white" style="font-size: 14px;">{{ item.price }} KS</div>
                                 <div>
                                     <i class="fa fa-cart-plus text-light" style="font-size: 18px;"></i>
