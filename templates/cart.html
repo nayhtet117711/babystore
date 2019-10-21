@@ -59,10 +59,10 @@
                     {% for item in cartItemList %}
                         <div class="d-flex flex-row justify-content-between my-1 p-2 rounded text-dark border border-muted" style="background-color: #f0f0f9">
                             <div class="pr-3 py-1 h6 w-50 mx-1 my-0 text-left pl-3">{{item.no}}</div>
-                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-left">{{item.fname.capitalize()}}</div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-left">{{item.fname.capitalize().replace("_", " ")}}</div>
                             <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-left">{{item.type.capitalize()}}</div>
                             <div class="pr-3 py-1 h6 w-100 mx-1 my-0">{{item.price}} <span style="color: #9595a5; font-weight: 100; padding-left: 4px;">MMK</span></div>
-                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-center">{{ "10%" if item.promotion else ""}}</div>
+                            <div class="pr-3 py-1 h6 w-100 mx-1 my-0 text-center text-success font-weight-bold">{{ "Discount-10%" if item.promotion else ""}}</div>
                             <div class="pr-3 py-1 h6 w-100 mx-1 my-0">{{item.aprice}} <span style="color: #9595a5; font-weight: 100; padding-left: 4px;">MMK</span></div>
                         </div>
                     {% endfor %}

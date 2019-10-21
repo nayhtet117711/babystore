@@ -18,9 +18,10 @@ class Item :
     img = ""
     price = 0.0
     aprice = 0.0
-    id = 0,
+    id = 0
     promotion = False
     promoPercent=10 
+    rootType = ""
 
 # photoDirlist = os.listdir("static/photos")
 # product_list = []
@@ -116,6 +117,8 @@ def product(ftype, fname) :
     for item_type in matched_item_types :
         for product in itemList:
             if item_type.lower()==product.type.lower() :
+                product.rootType = ftype
+                product.promotion = True
                 recommendatedProducts.append(product)
     
     searchProducts = []
@@ -123,38 +126,38 @@ def product(ftype, fname) :
         if (ftype.lower()==product.type.lower()) & (len(searchProducts)<15) :
             searchProducts.append(product)
 
-    cursor = mysql.connection.cursor()
-    cursor.execute("select items from bill")
-    fetchedBillData = cursor.fetchall()
+    # cursor = mysql.connection.cursor()
+    # cursor.execute("select items from bill")
+    # fetchedBillData = cursor.fetchall()
 
-    recomProduct2 = []
-    for it1 in searchProducts:
-        recomProduct2.append(it1)
-        doit = False
-        for it2 in recommendatedProducts:
-            for bl in fetchedBillData:
-                count1 = 0
-                count2 = 0
-                # print(" ||======================")
-                for c in bl[0].split("_-_") :                        
-                    pitem = c.split(",")
-                    idd = int(pitem[0])
-                    # if (idd==str(1)) | (idd==str(373)) :
-                    #     print("idd: ", idd, "  <> item1: ", it1.id, " <> item2: ", it2.id)
+    # recomProduct2 = []
+    # for it1 in searchProducts:
+    #     recomProduct2.append(it1)
+    #     doit = False
+    #     for it2 in recommendatedProducts:
+    #         for bl in fetchedBillData:
+    #             count1 = 0
+    #             count2 = 0
+    #             # print(" ||======================")
+    #             for c in bl[0].split("_-_") :                        
+    #                 pitem = c.split(",")
+    #                 idd = int(pitem[0])
+    #                 # if (idd==str(1)) | (idd==str(373)) :
+    #                 #     print("idd: ", idd, "  <> item1: ", it1.id, " <> item2: ", it2.id)
                     
-                    if it1.id==idd:
-                        count1 += 1
-                    if it2.id==idd:
-                        count2 += 1
+    #                 if it1.id==idd:
+    #                     count1 += 1
+    #                 if it2.id==idd:
+    #                     count2 += 1
 
-                if (count1>0) & (count2>0):
-                    it2.promotion = True
-                    recomProduct2.append(it2)
-                    doit = True
-                    break
-                    # print( "item1: ", it1.id, it1.promotion, " <<>> item2: ", it2.id, it2.promotion)            
-        if not doit :
-            recomProduct2.append(None)
+    #             if (count1>0) & (count2>0):
+    #                 it2.promotion = True
+    #                 recomProduct2.append(it2)
+    #                 doit = True
+    #                 break
+    #                 # print( "item1: ", it1.id, it1.promotion, " <<>> item2: ", it2.id, it2.promotion)            
+    #     if not doit :
+    #         recomProduct2.append(None)
         
     # print("recomProduct2: ", recomProduct2)
 
@@ -163,8 +166,8 @@ def product(ftype, fname) :
         'product.html',
         item = item,
         searchProducts = searchProducts,
-        # itemList = recommendatedProducts,
-        itemList = recomProduct2
+        itemList = recommendatedProducts,
+        # itemList = recomProduct2
     )
 
 def saveProduct() :
@@ -183,7 +186,7 @@ def saveProduct() :
 
     return redirect("/?newProduct=1")
 
-def addToCart(itemId, prevUrl) : 
+def addToCart(itemId, promotion, rootType, prevUrl) : 
     loggedName = request.cookies.get("loggedName")
     if not loggedName:
         return redirect("/login")
@@ -197,8 +200,10 @@ def addToCart(itemId, prevUrl) :
             item.fname = item1.fname
             item.type = item1.type
             item.img = item1.img
+            item.promotion = promotion
+            item.rootType = rootType if rootType!="_" else "" 
             break
-    itemString = str(item.id)+","+str(item.fname)+","+str(item.type)+","+str(item.price)
+    itemString = str(item.id)+","+str(item.fname)+","+str(item.type)+","+str(item.price)+","+str(item.promotion)+","+str(item.rootType)
     cart = str(request.cookies.get("cart"))
     if cart=="":
         cart = itemString
@@ -215,6 +220,16 @@ def addToCart(itemId, prevUrl) :
     response.set_cookie("cartCount", str(cartCount))
     
     return response
+
+def checkExistRootType(it, itList):
+    # print("rootType: ", it.rootType)
+    if len(it.rootType)==0:
+        return False
+    for item in itList:
+        # print(it.id, it.rootType, item.id, item.type)
+        if ( it.id!=item.id and it.rootType==item.type ):
+            return True
+    return False
 
 def cart() :
     loggedName = request.cookies.get("loggedName")
@@ -234,36 +249,48 @@ def cart() :
         it.fname = pitem[1]
         it.type = pitem[2]
         it.price = pitem[3]
+        it.promotion = pitem[4]
+        it.rootType = pitem[5]
         it.no = itemCount
         itemList.append(it)
 
-    cursor = mysql.connection.cursor()
-    cursor.execute("select items from bill")
-    fetchedData = cursor.fetchall()
+    for it in itemList:
+        checkexist = checkExistRootType(it, itemList)
+        # print("checkexist: ", checkexist)
+        # print(it.promotion=="True" and checkExistRootType(it, itemList), it.rootType, checkexist )
+        if ( it.promotion=="True" and checkExistRootType(it, itemList) ):
+            it.promotion = True
+        else :
+            it.promotion = False
 
-    for i in range(0, len(itemList)):
-        for k in range(0, len(itemList)):
-            # itemList[i] = itemList[i]
-            # itemList[k] = itemList[k]
-            # print(len(itemList),i, k)
-            if itemList[i].id!=itemList[k].id:
-                for bl in fetchedData:
-                    count1 = 0
-                    count2 = 0
-                    # print(" ||======================")
-                    for c in bl[0].split("_-_") :                        
-                        pitem = c.split(",")
-                        idd = pitem[0]
+
+    # cursor = mysql.connection.cursor()
+    # cursor.execute("select items from bill")
+    # fetchedData = cursor.fetchall()
+
+    # for i in range(0, len(itemList)):
+    #     for k in range(0, len(itemList)):
+    #         # itemList[i] = itemList[i]
+    #         # itemList[k] = itemList[k]
+    #         # print(len(itemList),i, k)
+    #         if itemList[i].id!=itemList[k].id:
+    #             for bl in fetchedData:
+    #                 count1 = 0
+    #                 count2 = 0
+    #                 # print(" ||======================")
+    #                 for c in bl[0].split("_-_") :                        
+    #                     pitem = c.split(",")
+    #                     idd = pitem[0]
                         
-                        if itemList[i].id==idd:
-                            count1 += 1
-                        if itemList[k].id==idd:
-                            count2 += 1
+    #                     if itemList[i].id==idd:
+    #                         count1 += 1
+    #                     if itemList[k].id==idd:
+    #                         count2 += 1
 
-                        # print( itemList[i].id, itemList[i].fname, itemList[k].id, itemList[k].fname, idd, pitem[1])
-                    if (count1>0) & (count2>0):
-                        itemList[i].promotion = True
-                        itemList[k].promotion = True
+    #                     # print( itemList[i].id, itemList[i].fname, itemList[k].id, itemList[k].fname, idd, pitem[1])
+    #                 if (count1>0) & (count2>0):
+    #                     itemList[i].promotion = True
+    #                     itemList[k].promotion = True
 
     for it in itemList:
         # print(it.fname, it.promotion)
@@ -273,8 +300,8 @@ def cart() :
             it.aprice = float(it.price)
         totalAmount += float(it.aprice)   
 
-    mysql.connection.commit()
-    cursor.close()
+    # mysql.connection.commit()
+    # cursor.close()
 
     return render_template(
         'cart.html',
@@ -300,8 +327,11 @@ def checkOutCart() :
         it.fname = pitem[1]
         it.type = pitem[2]
         it.price = pitem[3]
+        it.promotion = pitem[4]
+        it.rootType = pitem[5]
         it.no = itemCount
-        totalAmount += float(it.price)
+        # print("promo: ? ", it.promotion=="True", pitem)
+        totalAmount += float(it.price)*0.9 if it.promotion=="True" else float(it.price )
         itemList.append(it)
     
     cursor = mysql.connection.cursor()

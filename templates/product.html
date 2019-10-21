@@ -55,10 +55,13 @@
                 </div>
 
                 <div class="d-flex flex-row">
-
                     <div class="w-25 py-4">
                         {% if item.fname|length > 0 %}
+                        <div class="mItem p-3 border m-1 d-flex flex-column rounded justify-content-between bg-primary text-white text-center h5">
+                            <div class="">Result</div>
+                        </div>
                         <div class="rounded bg-light d-flex flex-row flex-wrap justify-content-center">
+                            <div class="py-2"></div>
                             <div class="mItem p-1 border m-1 d-flex flex-column rounded justify-content-between">
                                 <div class="p-1">
                                     <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.img) }}" alt="{{ item.img }}" style="width: 300px;">
@@ -67,7 +70,7 @@
                                     <div class="h6 text-seconary text-center">{{ item.fname.replace("_", " ").replace("-", " ") }}</div>
                                     <div class="text-seconary text-center text-secondary w-100" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis">{{ item.type }}</div>
                                 </div>
-                                <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}/{{request.path.replace('/', '$')}}">
+                                <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}/{{item.promotion}}/{{item.rootType if item.rootType|length>0 else '_'}}/{{request.path.replace('/', '$')}}">
                                     <div class="text-seconary text-center text-white" style="font-size: 14px;">{{ item.price }} KS</div>
                                     <div>
                                         <i class="fa fa-cart-plus text-light" style="font-size: 18px;"></i>
@@ -80,6 +83,7 @@
                         <div class="mItem p-3 border m-1 d-flex flex-column rounded justify-content-between bg-primary text-white text-center h5">
                             <div class="">Results for {{ item.type }}</div>
                         </div>
+                        <div class="py-2"></div>
                         <div class="" style="overflow-x: auto">
                             <div class="rounded bg-white d-flex flex-column justify-content-center">
                                 {% for p in searchProducts %}
@@ -90,7 +94,7 @@
                                     <div class="p-2 text-center">
                                         <div class="h6 text-seconary text-center" style="">{{ p.fname.replace("_", " ").replace("-", " ") }}</div>
                                         <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;">{{ p.type }}</div>
-                                        <a class="p-2 mt-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{p.id}}/{{request.path.replace('/', '$')}}">
+                                        <a class="p-2 mt-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{p.id}}/{{p.promotion}}/{{p.rootType if p.rootType|length>0 else '_'}}/{{request.path.replace('/', '$')}}">
                                             <div class="text-seconary text-center text-white" style="font-size: 14px;">{{ p.price }} KS</div>
                                             <div>
                                                 <i class="fa fa-cart-plus text-light" style="font-size: 18px;"></i>
@@ -110,17 +114,22 @@
                             <div class="">Suggestions for {{item.type}} ({{ itemList|length }}-items)</div>
                         </div>
                         <!-- <div class="text-muted px-2 w-100">Recommended {{ itemList|length }}-items</div> -->
+                        
+                        <div class="px-2 d-flex flex-column justify-content-center text-danger text-center" style="height: 50px; vertical-align: middle;">
+                            Promotion from the suggestion items will be effected only if one or more items from the search result are bought.   
+                        </div>
                         <div class="rounded py-0 d-flex flex-row flex-wrap justify-content-center">
+                            
                             {% for item in itemList %}
 
                                 <!-- {% if item is none %}
                                 <div class="bg-light mItem p-1 border my-1 mx-2 d-flex flex-column rounded justify-content-between" style="width: 45%;"> {{ item }}
                                 </div>
                                 {% else %} -->
-                                <div class="bg-light mItem p-1 border my-1 mx-2 d-flex flex-column rounded justify-content-between" style="width: 45%;">
+                                <div class="bg-light mItem p-1 border my-1 mx-2 d-flex flex-column rounded justify-content-between" style="width: 31%;">
                                     <a class="" href="/product/{{item.type}}/{{item.fname}}" style="text-decoration: none;">
-                                        <div class="p-1 text-center d-flex flex-row justify-content-center h-100">
-                                            <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.img) }}" alt="{{ item.img }}" class="" width="200" style="width: 200px;">
+                                        <div class="p-1 text-center d-flex flex-row justify-content-center">
+                                            <img src="{{ url_for('static', filename='photos/'+item.type+'/'+item.img) }}" alt="{{ item.img }}" class="" style="width: 210px;">
                                             {% if item.promotion %}     
                                                 <div class="d-flex flex-column justify-content-center">
                                                     <div class=" text-center p-2 text-success font-weight-bold">Discount</div>
@@ -136,8 +145,8 @@
                                             <div class="text-seconary text-center text-secondary w-100" style="font-size: 13px;">{{ item.type }}</div>
                                         </div>
                                     </a>
-                                    <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}/{{request.path.replace('/', '$')}}">
-                                        <div class="text-seconary text-center text-white" style="font-size: 14px;">{{ item.price }} KS</div>
+                                    <a class="p-2 bg-success w-100 rounded d-flex flex-row justify-content-between" href="/add-to-cart/{{item.id}}/{{item.promotion}}/{{item.rootType if item.rootType|length>0 else '_'}}/{{request.path.replace('/', '$')}}">
+                                        <div class="text-seconary text-center text-white" style="font-size: 14px;">{{item.rootType}} {{ item.price }} KS</div>
                                         <div>
                                             <i class="fa fa-cart-plus text-light" style="font-size: 18px;"></i>
                                         </div>
